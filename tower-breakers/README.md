@@ -18,6 +18,23 @@ Player matches the move. Now the towers are both units tall.
 
 Let Player remove. Now the towers are and units tall.
 
+## Solution
+```js
+function towerBreakers(n, m) {
+        if(m===1){
+            return 2;            
+        } else{
+            if(n%2==0)
+                return 2;
+            else
+                return 1; 
+         } 
+}
+```
+
+## Explanation
+The whole point being that each player would like to make the height 1 of whatever tower it chooses, because 1 evenly divides all other numbers. So the answer only depends on number of towers being odd or even, except for the case when starting height of towers is 1, in that case 1 always loses because it can't make any moves.
+
 ## 🛠 Link
 - [HackerRank exercise](https://www.hackerrank.com/challenges/tower-breakers-1/problem?h_r=internal-search)
 
