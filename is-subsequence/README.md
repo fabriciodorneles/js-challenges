@@ -91,7 +91,6 @@ abc                          a hb gdc
 TRUE
 ```  
 
-iterando pelas letras do primeiro, tentar achar o indexOf da letra no segundo array.
 iterating trough the chars of the first string, try to find 'indexOf' of the current char in the second array
 
 if don't find return false    
