@@ -69,39 +69,40 @@ var isSubsequence = function(s, t) {
 ```
 
 ## Explanation  
-    ```tsx
-                                 0 ->
-                                 |
-    abc                          ahbgdc
-    |                            |
-    														 OK - 0
-    
-                                   1 ->
-                                   |
-    abc                          a hbgdc
-     |                              |
-    														    OK - 2
-    
-                                      3 ->
-                                      |
-    abc                          a hb gdc
-      |                                 |
-    														        OK - 5
-    
-    TRUE
-    ```   
-    iterando pelas letras do primeiro, tentar achar o indexOf da letra no segundo array.
-    iterating trough the chars of the first string, try to find 'indexOf' of the current char in the second array
+```js
+                              0 ->
+                              |
+abc                          ahbgdc
+|                            |
+                              OK - 0
 
-    if don't find return false    
-        
-    if find, go to the next iteration and try to find 'indexOf' FROM the last finded index.
+                                1 ->
+                                |
+abc                          a hbgdc
+  |                              |
+                                OK - 2
+
+                                  3 ->
+                                  |
+abc                          a hb gdc
+  |                                 |
+                                    OK - 5
+
+TRUE
+```  
+
+iterando pelas letras do primeiro, tentar achar o indexOf da letra no segundo array.
+iterating trough the chars of the first string, try to find 'indexOf' of the current char in the second array
+
+if don't find return false    
     
-    ```tsx
-    t.indexOf(char, lastIndex + 1)
-    ```
-    
-    If don't return false during all the iteration you can return true.
+if find, go to the next iteration and try to find 'indexOf' FROM the last finded index.
+
+```js
+t.indexOf(char, lastIndex + 1)
+```
+
+If don't return false during all the iteration you can return true.
 
 ## 🛠 Link
 - [LeetCode exercise](https://leetcode.com/problems/is-subsequence/)
