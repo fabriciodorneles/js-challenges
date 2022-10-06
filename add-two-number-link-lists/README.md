@@ -78,13 +78,13 @@ var addTwoNumbers = function(l1, l2) {
     while (l1 || l2 || carry) {
         //sums each digit (plus the carry)
         const sum = (l1 ? l1.val : 0) + (l2 ? l2.val : 0) + carry;
-                //calculates the carry (if the value of the sum
-                // is more than 10, stores the first digit to sum in 
-                // the next digits sum  
-				carry = sum >= 10 ? Math.floor(sum/10) : 0;
-                // takes always only the right digit (12 => 2, 7 => 7)
-				curr.next = new ListNode(sum % 10);
-                //advances if item is valid
+        //calculates the carry (if the value of the sum
+        // is more than 10, stores the first digit to sum in 
+        // the next digits sum  
+        carry = sum >= 10 ? Math.floor(sum/10) : 0;
+        // takes always only the right digit (12 => 2, 7 => 7)
+        curr.next = new ListNode(sum % 10);
+        //advances if item is valid
         if (l1) l1 = l1.next;
         if (l2) l2 = l2.next;
         //advances result list
