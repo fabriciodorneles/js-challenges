@@ -1,103 +1,117 @@
-# Add Two Number (Inverted Linked Lists)
+# Merge Two Sorted Lists - LeetCode
 ## Proposal
-You are given two **non-empty** linked lists representing two non-negative integers. The digits are stored in **reverse order**, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
+You are given the heads of two sorted linked lists `list1` and `list2`.
 
-You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+Merge the two lists in a one **sorted** list. The list should be made by splicing together the nodes of the first two lists.
+
+Return *the head of the merged linked list*.
 
 **Example 1:**
 
-![https://assets.leetcode.com/uploads/2020/10/02/addtwonumber1.jpg](https://assets.leetcode.com/uploads/2020/10/02/addtwonumber1.jpg)
+![https://assets.leetcode.com/uploads/2020/10/03/merge_ex1.jpg](https://assets.leetcode.com/uploads/2020/10/03/merge_ex1.jpg)
 
 ```
-Input: l1 = [2,4,3], l2 = [5,6,4]
-Output: [7,0,8]
-Explanation: 342 + 465 = 807.
+Input: list1 = [1,2,4], list2 = [1,3,4]
+Output: [1,1,2,3,4,4]
 
 ```
 
 **Example 2:**
 
 ```
-Input: l1 = [0], l2 = [0]
-Output: [0]
+Input: list1 = [], list2 = []
+Output: []
 
 ```
 
 **Example 3:**
 
 ```
-Input: l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]
-Output: [8,9,9,9,0,0,0,1]
+Input: list1 = [], list2 = [0]
+Output: [0]
 
 ```
 
 **Constraints:**
 
-- The number of nodes in each linked list is in the range `[1, 100]`.
-- `0 <= Node.val <= 9`
-- It is guaranteed that the list represents a number that does not have leading zeros.
+- The number of nodes in both lists is in the range `[0, 50]`.
+- `100 <= Node.val <= 100`
+- Both `list1` and `list2` are sorted in **non-decreasing** order.
 
-## Solution
-```js
-/**
- * Definition for singly-linked list.
- * function ListNode(val, next) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.next = (next===undefined ? null : next)
- * }
- */
-/**
- * @param {ListNode} l1
- * @param {ListNode} l2
- * @return {ListNode}
- */
-var addTwoNumbers = function(l1, l2) {
-    const d = new ListNode();
-    let curr = d;
-    let carry = 0;
-    while (l1 || l2 || carry) {
-        const sum = (l1 ? l1.val : 0) + (l2 ? l2.val : 0) + carry;
-        carry = sum >= 10 ? Math.floor(sum/10) : 0;
-        curr.next = new ListNode(sum % 10);
-        if (l1) l1 = l1.next;
-        if (l2) l2 = l2.next;
-        curr = curr.next;
+## Solution 
+```tsx
+const mergeTwoLists = (list1, list2) => {
+    let newList = new ListNode();
+    let head = newList;
+    
+    while(list1 !== null && list2 !== null){
+        if(list1.val < list2.val){
+            newList.next = new ListNode(list1.val);
+            list1 = list1.next;
+        } else{
+            newList.next = new ListNode(list2.val);
+            list2 = list2.next;
+        }
+        
+        newList = newList.next;
     }
-    return d.next;
-};
+    
+    if(list1 !== null) {newList.next = list1};
+    if(list2 !== null) {newList.next = list2};
+    
+    return head.next;
+
+}
 ```
 
 ## Explanation
-```jsx
-var addTwoNumbers = function(l1, l2) {
-    //create a node and store the head
-    const d = new ListNode();
-    let curr = d;		
-    let carry = 0;
+```tsx
+//Create the list Node
+let list = new ListNode();
+//Stores list head
+let head = list;
+---------------
+//iterate until some of the lists end
+while (list1 !== null && list2 !== null)
+(1,2,4)    (1,3,4)
+ |          |  
+//compare the two value and add small on newList
+[,1,]
+//pass to next only in the list of the added element
+(1,2,4)    (1,3,4)
+ |            |  
+//compare again
+[,1,1]
+//go to next and repeat...
+(1,2,4)    (1,3,4)
+   |          |  
 
-    while (l1 || l2 || carry) {
-        //sums each digit (plus the carry)
-        const sum = (l1 ? l1.val : 0) + (l2 ? l2.val : 0) + carry;
-        //calculates the carry (if the value of the sum
-        // is more than 10, stores the first digit to sum in 
-        // the next digits sum  
-        carry = sum >= 10 ? Math.floor(sum/10) : 0;
-        // takes always only the right digit (12 => 2, 7 => 7)
-        curr.next = new ListNode(sum % 10);
-        //advances if item is valid
-        if (l1) l1 = l1.next;
-        if (l2) l2 = l2.next;
-        //advances result list
-        curr = curr.next;
-    }
+[,1,1,2]
 
-    //return the store head from second node
-    return d.next;
-};
+(1,2,4)    (1,3,4)
+     |        |  
+
+[,1,1,2,3]
+
+(1,2,4)    (1,3,4)
+     |          |  
+
+[,1,1,2,3,4]
+
+(1,2,4)    (1,3,4)
+     |             | null
+
+-----------------
+// add the remaing if some list is not at the end
+// (at the end of iteration)
+if (list1 !== null) list.next = list1;
+[,1,1,2,3,4,4]
+
+//return stored head but from 2nd element
+//(because 1st is lost in the iteration)
+return head.next;
+[1,1,2,3,4,4]
 ```
 
 ## 🛠 Link
-- [LeetCode exercise](https://leetcode.com/problems/add-two-numbers/)
-
-
-
+- [LeetCode exercise](https://leetcode.com/problems/merge-two-sorted-lists/)

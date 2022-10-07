@@ -1,120 +1,130 @@
-# Merge Two Sorted Lists - LeetCode
+# Roman to Integer - LeetCode
 ## Proposal
-You are given the heads of two sorted linked lists `list1` and `list2`.
+Roman numerals are represented by seven different symbols: `I`, `V`, `X`, `L`, `C`, `D` and `M`.
 
-Merge the two lists in a one **sorted** list. The list should be made by splicing together the nodes of the first two lists.
+```
+SymbolValue
+I             1
+V             5
+X             10
+L             50
+C             100
+D             500
+M             1000
+```
 
-Return *the head of the merged linked list*.
+For example, `2` is written as `II` in Roman numeral, just two ones added together. `12` is written as `XII`, which is simply `X + II`. The number `27` is written as `XXVII`, which is `XX + V + II`.
+
+Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not `IIII`. Instead, the number four is written as `IV`. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as `IX`. There are six instances where subtraction is used:
+
+- `I` can be placed before `V` (5) and `X` (10) to make 4 and 9.
+- `X` can be placed before `L` (50) and `C` (100) to make 40 and 90.
+- `C` can be placed before `D` (500) and `M` (1000) to make 400 and 900.
+
+Given a roman numeral, convert it to an integer.
 
 **Example 1:**
 
-![https://assets.leetcode.com/uploads/2020/10/03/merge_ex1.jpg](https://assets.leetcode.com/uploads/2020/10/03/merge_ex1.jpg)
-
 ```
-Input: list1 = [1,2,4], list2 = [1,3,4]
-Output: [1,1,2,3,4,4]
+Input: s = "III"
+Output: 3
+Explanation: III = 3.
 
 ```
 
 **Example 2:**
 
 ```
-Input: list1 = [], list2 = []
-Output: []
+Input: s = "LVIII"
+Output: 58
+Explanation: L = 50, V= 5, III = 3.
 
 ```
 
 **Example 3:**
 
 ```
-Input: list1 = [], list2 = [0]
-Output: [0]
+Input: s = "MCMXCIV"
+Output: 1994
+Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
 
 ```
 
 **Constraints:**
 
-- The number of nodes in both lists is in the range `[0, 50]`.
-- `100 <= Node.val <= 100`
-- Both `list1` and `list2` are sorted in **non-decreasing** order.
+- `1 <= s.length <= 15`
+- `s` contains only the characters `('I', 'V', 'X', 'L', 'C', 'D', 'M')`.
+- It is **guaranteed** that `s` is a valid roman numeral in the range `[1, 3999]`.
 
-## Solution 
-```tsx
-const mergeTwoLists = (list1, list2) => {
-    let newList = new ListNode();
-    let head = newList;
-    
-    while(list1 !== null && list2 !== null){
-        if(list1.val < list2.val){
-            newList.next = new ListNode(list1.val);
-            list1 = list1.next;
-        } else{
-            newList.next = new ListNode(list2.val);
-            list2 = list2.next;
-        }
-        
-        newList = newList.next;
+## Solution 1
+```js
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var romanToInt = function(s) {
+    const romanKey = {
+        I: 1,
+        V: 5,
+        X: 10,
+        L: 50,
+        C: 100,
+        D: 500,
+        M: 1000,
     }
     
-    if(list1 !== null) {newList.next = list1};
-    if(list2 !== null) {newList.next = list2};
+    let jump=false;
     
-    return head.next;
-
-}
+    return [...s].reduce((acc,currLetter,i,arr) => {
+        if(jump){
+            jump=false;
+            return acc + 0;
+        }
+        if(currLetter==='I' && arr[i+1]==='V'){
+            jump=true;
+            return acc + 4
+        }
+        if(currLetter==='I' && arr[i+1]==='X'){
+            jump=true;
+            return acc + 9
+        }
+        if(currLetter==='X' && arr[i+1]==='L'){
+            jump=true;
+            return acc + 40
+        }
+        if(currLetter==='X' && arr[i+1]==='C'){
+            jump=true;
+            return acc + 90
+        }
+        if(currLetter==='C' && arr[i+1]==='D'){
+            jump=true;
+            return acc + 400
+        }
+        if(currLetter==='C' && arr[i+1]==='M'){
+            jump=true;
+            return acc + 900
+        }
+        return acc + romanKey[currLetter]
+    }, 0)
+};
 ```
-
-## Explanation
-```tsx
-//Create the list Node
-let list = new ListNode();
-//Stores list head
-let head = list;
----------------
-//iterate until some of the lists end
-while (list1 !== null && list2 !== null)
-(1,2,4)    (1,3,4)
- |          |  
-//compare the two value and add small on newList
-[,1,]
-//pass to next only in the list of the added element
-(1,2,4)    (1,3,4)
- |            |  
-//compare again
-[,1,1]
-//go to next and repeat...
-(1,2,4)    (1,3,4)
-   |          |  
-
-[,1,1,2]
-
-(1,2,4)    (1,3,4)
-     |        |  
-
-[,1,1,2,3]
-
-(1,2,4)    (1,3,4)
-     |          |  
-
-[,1,1,2,3,4]
-
-(1,2,4)    (1,3,4)
-     |             | null
-
------------------
-// add the remaing if some list is not at the end
-// (at the end of iteration)
-if (list1 !== null) list.next = list1;
-[,1,1,2,3,4,4]
-
-//return stored head but from 2nd element
-//(because 1st is lost in the iteration)
-return head.next;
-[1,1,2,3,4,4]
+## Solution 2
+```js
+var romanToInt = function(s) {
+    const romanKey = {I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000}
+    
+    s = s.replace("IV","IIII").replace("IX","VIIII");
+    s = s.replace("XL","XXXX").replace("XC","LXXXX");
+    s = s.replace("CD","CCCC").replace("CM","DCCCC");
+    
+    return [...s].reduce((acc,currLetter,i,arr) => {
+        return acc + romanKey[currLetter]
+    }, 0)
+};
 ```
 
 ## 🛠 Link
-- [LeetCode exercise](https://leetcode.com/problems/merge-two-sorted-lists/)
+- [LeetCode exercise](https://leetcode.com/problems/roman-to-integer/)
 
 
 
