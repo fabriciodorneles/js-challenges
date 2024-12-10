@@ -1,0 +1,15 @@
+{
+  "name": "js-challenges",
+  "version": "1.0.0",
+  "description": "In this repo I will store and share all my solved code challenges from leetcode, hackerRank and codeWars.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tsx": "^4.19.2"
+  }
+}
