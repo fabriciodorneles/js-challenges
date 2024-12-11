@@ -1,10 +1,10 @@
 class TreeNode {
-    value: number;
+    val: number;
     left: TreeNode | null;
     right: TreeNode | null;
 
-    constructor(value: number, left: TreeNode | null = null, right: TreeNode | null = null) {
-        this.value = value;
+    constructor(val: number, left: TreeNode | null = null, right: TreeNode | null = null) {
+        this.val = val;
         this.left = left;
         this.right = right;
     }
@@ -13,7 +13,7 @@ class TreeNode {
 // Função para mostrar graficamente a árvore no console
 function printTree(node: TreeNode | null, prefix: string = "", isLeft: boolean = true) {
     if (node !== null) {
-        console.log(prefix + (isLeft ? "├── " : "└── ") + node.value);
+        console.log(prefix + (isLeft ? "├── " : "└── ") + node.val);
         printTree(node.left, prefix + (isLeft ? "│   " : "    "), true);
         printTree(node.right, prefix + (isLeft ? "│   " : "    "), false);
     }
@@ -37,8 +37,8 @@ root.right.left = new TreeNode(6);
 // Root -> Left -> Right
 function dfsPreorder(node: TreeNode | null) {
     if (node) {
-        // show the current node value
-        console.log(node.value);
+        // show the current node val
+        console.log(node.val);
         // recursively show the left and right nodes
         dfsPreorder(node.left);
         dfsPreorder(node.right);
@@ -50,7 +50,7 @@ function dfsPreorder(node: TreeNode | null) {
 function dfsInorder(node: TreeNode | null) {
     if (node) {
         dfsInorder(node.left);
-        console.log(node.value);
+        console.log(node.val);
         dfsInorder(node.right);
     }
 }
@@ -61,7 +61,7 @@ function dfsPostorder(node: TreeNode | null) {
     if (node) {
         dfsPostorder(node.left);
         dfsPostorder(node.right);
-        console.log(node.value);
+        console.log(node.val);
     }
 }
 
