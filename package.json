@@ -4,12 +4,14 @@
   "description": "In this repo I will store and share all my solved code challenges from leetcode, hackerRank and codeWars.",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch",
+    "dev": "nodemon --watch src --exec ts-node",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "tsx": "^4.19.2"
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
   }
 }
